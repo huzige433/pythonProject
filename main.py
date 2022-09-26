@@ -53,14 +53,12 @@ def start():
         # 假设命令为ping
         lineml=""
         for ip in notiniplist:
-            lineml+="ping "+ip+";" #自己修改命令
-        print lineml
-        #开始输入连接服务器运行命令
-        linuxUtil = LinuxUtil(host , port , user , pwd)
-        printtxt=linuxUtil.execCmd(lineml)
-        for ttt in printtxt:
-            print ttt
-        linuxUtil.close()
+            #开始输入连接服务器运行命令
+            linuxUtil = LinuxUtil(ip , port , user , pwd)
+            printtxt=linuxUtil.execCmd("ping www.baidu.com") #这里修改命令.多命令用;分割
+            for ttt in printtxt:
+                print ttt
+            linuxUtil.close()
 
 if __name__=="__main__":
 
