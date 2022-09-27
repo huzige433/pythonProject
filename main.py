@@ -38,9 +38,9 @@ class LinuxUtil:
 
 
 #第一个检测green的url
-search_url1="https://www.****.com/srarch1.html"
+search_url1="http://127.0.0.1/health.html"
 #第二个检测green的url
-search_url2="https://www.****.com/srarch2.html"
+search_url2="http://127.0.0.1/nodes.html"
 
 #固定9个ip和对应的密码
 ipdict={"12.345.67.890":"pwd1","12.345.67.891":"pwd2","12.345.67.892":"pwd3","12.345.67.893":"pwd1","12.345.67.894":"pwd1"
@@ -76,12 +76,11 @@ def getstatetwo(): #页面二检测取得ip
     return notiniplist
 
 def start():
-    notiniplist=None
+    notiniplist=[]
     if not getstateone():
         notiniplist=getstatetwo()
     if len(notiniplist) >0:
-        # 假设命令为ping
-        lineml=""
+        print notiniplist
         for ip,pwd in notiniplist:
             #开始输入连接服务器运行命令
             linuxUtil = LinuxUtil(ip , port , user , pwd)
