@@ -11,15 +11,13 @@ search_url1="https://www.****.com/srarch1.html"
 #第二个检测green的url
 search_url2="https://www.****.com/srarch2.html"
 
-#固定9个ip
-ipList=["12.345.67.890","12.345.67.891","12.345.67.892","12.345.67.893","12.345.67.894","12.345.67.895",
-        "12.345.67.896","12.345.67.897","12.345.67.898"]
+#固定9个ip和对应的密码
+ipdict={"12.345.67.890":"pwd1","12.345.67.891":"pwd2","12.345.67.892":"pwd3","12.345.67.893":"pwd1","12.345.67.894":"pwd1"
+        ,"12.345.67.895":"pwd1","12.345.67.896":"pwd1","12.345.67.897":"pwd1","12.345.67.898":"pwd1"}
 
 #服务器配置
-host="192.168.111.111"
 port=22
 user="root"
-pwd="root123"
 
 
 def getstateone(): #页面一检测
@@ -43,16 +41,17 @@ def getstatetwo(): #页面二检测取得ip
             ip=re.findall(r"\d+\.\d+\.\d+\.\d+",row)[0]
             ips.append(ip)
         except:pass
-    notiniplist=[item for item in  ipList if item not in ips] #不在页面中出现的ip列表
+    notiniplist=[item for item in  ipdict.items() if item[0] not in ips] #不在页面中出现的ip键值对
     return notiniplist
 
 def start():
+    notiniplist=None
     if not getstateone():
         notiniplist=getstatetwo()
     if len(notiniplist) >0:
         # 假设命令为ping
         lineml=""
-        for ip in notiniplist:
+        for ip,pwd in notiniplist:
             #开始输入连接服务器运行命令
             linuxUtil = LinuxUtil(ip , port , user , pwd)
             printtxt=linuxUtil.execCmd("ping www.baidu.com") #这里修改命令.多命令用;分割
@@ -61,5 +60,4 @@ def start():
             linuxUtil.close()
 
 if __name__=="__main__":
-
     start()
